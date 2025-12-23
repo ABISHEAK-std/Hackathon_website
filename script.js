@@ -13,9 +13,11 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 window.addEventListener('scroll', () => {
     const navbar = document.getElementById('navbar');
     if (window.scrollY > 50) {
-        navbar.style.background = 'rgba(15, 20, 25, 0.95)';
+        navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+        navbar.style.boxShadow = '0 2px 10px rgba(0, 82, 204, 0.15)';
     } else {
-        navbar.style.background = 'rgba(15, 20, 25, 0.85)';
+        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+        navbar.style.boxShadow = '0 2px 10px rgba(0, 82, 204, 0.1)';
     }
 });
 
@@ -58,3 +60,120 @@ function animateCounters() {
 window.addEventListener('load', () => {
     setTimeout(animateCounters, 800);
 });
+
+// Horizontal scroll for problems section with vertical scroll lock
+const problemsSection = document.querySelector('.problems');
+const problemsContainer = document.getElementById('problemsContainer');
+const problemsWrapper = document.querySelector('.problems-scroll-wrapper');
+let isInProblemsSection = false;
+let isScrollLocked = false;
+
+// Check if user is in problems section
+function checkProblemsSection() {
+    const rect = problemsSection.getBoundingClientRect();
+    const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+    
+    if (isVisible && !isInProblemsSection) {
+        isInProblemsSection = true;
+        isScrollLocked = true;
+    } else if (!isVisible && isInProblemsSection) {
+        isInProblemsSection = false;
+        isScrollLocked = false;
+    }
+}
+
+// Check if horizontal scroll is at the end
+function isAtEndOfHorizontalScroll() {
+    const container = problemsWrapper;
+    const maxScroll = container.scrollWidth - container.clientWidth;
+    const currentScroll = container.scrollLeft;
+    // Allow small threshold for rounding errors
+    return currentScroll >= maxScroll - 10;
+}
+
+// Handle wheel events - convert vertical scroll to horizontal when in problems section
+problemsWrapper.addEventListener('wheel', (e) => {
+    if (isInProblemsSection && !isAtEndOfHorizontalScroll()) {
+        e.preventDefault();
+        // Convert vertical scroll to horizontal
+        problemsWrapper.scrollLeft += e.deltaY;
+    } else if (isInProblemsSection && isAtEndOfHorizontalScroll()) {
+        // Allow vertical scroll only when at the end
+        isScrollLocked = false;
+    }
+}, { passive: false });
+
+// Prevent vertical scroll when scroll is locked
+window.addEventListener('wheel', (e) => {
+    if (isScrollLocked && isInProblemsSection && !isAtEndOfHorizontalScroll()) {
+        e.preventDefault();
+    }
+}, { passive: false });
+
+// Prevent touch scroll when scroll is locked (for mobile)
+let touchStartX = 0;
+let touchStartY = 0;
+
+problemsWrapper.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+}, { passive: true });
+
+problemsWrapper.addEventListener('touchmove', (e) => {
+    if (!isInProblemsSection) return;
+    
+    const touchX = e.touches[0].clientX;
+    const touchY = e.touches[0].clientY;
+    const deltaX = touchStartX - touchX;
+    const deltaY = touchStartY - touchY;
+    
+    // If horizontal movement is greater, allow it and prevent vertical
+    if (Math.abs(deltaX) > Math.abs(deltaY) && !isAtEndOfHorizontalScroll()) {
+        e.preventDefault();
+    } else if (isAtEndOfHorizontalScroll()) {
+        // Allow vertical scroll when at end
+        isScrollLocked = false;
+    }
+}, { passive: false });
+
+// Monitor scroll position
+problemsWrapper.addEventListener('scroll', () => {
+    if (isAtEndOfHorizontalScroll()) {
+        isScrollLocked = false;
+    } else if (isInProblemsSection) {
+        isScrollLocked = true;
+    }
+});
+
+// Monitor window scroll to detect when entering/exiting problems section
+window.addEventListener('scroll', checkProblemsSection);
+window.addEventListener('resize', checkProblemsSection);
+
+// Initial check
+checkProblemsSection();
+
+// Set initial scroll position to the right (start from right side)
+function initializeProblemsScroll() {
+    if (problemsWrapper) {
+        // Scroll to the rightmost position
+        problemsWrapper.scrollLeft = problemsWrapper.scrollWidth;
+    }
+}
+
+// Initialize on load and when section becomes visible
+window.addEventListener('load', () => {
+    setTimeout(initializeProblemsScroll, 100);
+});
+
+// Also initialize when section enters viewport
+const problemsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            setTimeout(initializeProblemsScroll, 100);
+        }
+    });
+}, { threshold: 0.1 });
+
+if (problemsSection) {
+    problemsObserver.observe(problemsSection);
+}

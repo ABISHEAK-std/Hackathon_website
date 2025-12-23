@@ -161,49 +161,51 @@
     <!-- Challenges Section -->
     <section class="problems" id="challenges">
         <h2 class="section-title">Challenge Themes & Problem Statements</h2>
-        <div class="problems-container">
-            <!-- Theme 1 -->
-            <div class="problem-card reveal">
-                <div class="theme">Industrial Automation</div>
-                <h4>CNC LoadUnload Automation</h4>
-                <p><strong>Challenge:</strong> CNC machines require manual part loading/unloading, wasting time and resources.</p>
-                <p><strong>Solution Needed:</strong> Design an automated system for CNC loading and unloading operations.</p>
-            </div>
+        <div class="problems-scroll-wrapper">
+            <div class="problems-container" id="problemsContainer">
+                <!-- Theme 1 -->
+                <div class="problem-card reveal">
+                    <div class="theme">Industrial Automation</div>
+                    <h4>CNC LoadUnload Automation</h4>
+                    <p><strong>Challenge:</strong> CNC machines require manual part loading/unloading, wasting time and resources.</p>
+                    <p><strong>Solution Needed:</strong> Design an automated system for CNC loading and unloading operations.</p>
+                </div>
 
-            <div class="problem-card reveal">
-                <div class="theme">Industrial Automation</div>
-                <h4>Automated Thread Checking System</h4>
-                <p><strong>Challenge:</strong> Manual thread inspection using gauges is slow and inconsistent.</p>
-                <p><strong>Solution Needed:</strong> Develop an automated inspection system with AI-based quality verification.</p>
-            </div>
+                <div class="problem-card reveal">
+                    <div class="theme">Industrial Automation</div>
+                    <h4>Automated Thread Checking System</h4>
+                    <p><strong>Challenge:</strong> Manual thread inspection using gauges is slow and inconsistent.</p>
+                    <p><strong>Solution Needed:</strong> Develop an automated inspection system with AI-based quality verification.</p>
+                </div>
 
-            <div class="problem-card reveal">
-                <div class="theme">Smart Manufacturing</div>
-                <h4>Tool Life Prediction</h4>
-                <p><strong>Challenge:</strong> Predict tool life in broaching machines using IoT sensor data and ML algorithms.</p>
-                <p><strong>Solution Needed:</strong> Build predictive models to optimize tool replacement cycles.</p>
-            </div>
+                <div class="problem-card reveal">
+                    <div class="theme">Smart Manufacturing</div>
+                    <h4>Tool Life Prediction</h4>
+                    <p><strong>Challenge:</strong> Predict tool life in broaching machines using IoT sensor data and ML algorithms.</p>
+                    <p><strong>Solution Needed:</strong> Build predictive models to optimize tool replacement cycles.</p>
+                </div>
 
-            <!-- Theme 2 -->
-            <div class="problem-card reveal">
-                <div class="theme">Advanced Materials</div>
-                <h4>Anti-Carburization Solution</h4>
-                <p><strong>Challenge:</strong> Find cost-effective alternative to anti-carb paste for decarburising.</p>
-                <p><strong>Solution Needed:</strong> Explore composite materials and coating solutions.</p>
-            </div>
+                <!-- Theme 2 -->
+                <div class="problem-card reveal">
+                    <div class="theme">Advanced Materials</div>
+                    <h4>Anti-Carburization Solution</h4>
+                    <p><strong>Challenge:</strong> Find cost-effective alternative to anti-carb paste for decarburising.</p>
+                    <p><strong>Solution Needed:</strong> Explore composite materials and coating solutions.</p>
+                </div>
 
-            <div class="problem-card reveal">
-                <div class="theme">Advanced Materials</div>
-                <h4>Composite Material Selection</h4>
-                <p><strong>Challenge:</strong> Identify cost-effective composite materials for safety-critical steering components.</p>
-                <p><strong>Solution Needed:</strong> Material analysis and feasibility study for structural applications.</p>
-            </div>
+                <div class="problem-card reveal">
+                    <div class="theme">Advanced Materials</div>
+                    <h4>Composite Material Selection</h4>
+                    <p><strong>Challenge:</strong> Identify cost-effective composite materials for safety-critical steering components.</p>
+                    <p><strong>Solution Needed:</strong> Material analysis and feasibility study for structural applications.</p>
+                </div>
 
-            <div class="problem-card reveal">
-                <div class="theme">Advanced Materials</div>
-                <h4>Material Stress-Strain Analysis</h4>
-                <p><strong>Challenge:</strong> Establish SN curves for processed/converted materials vs. standard materials.</p>
-                <p><strong>Solution Needed:</strong> Develop comparative analysis for Indian standard materials.</p>
+                <div class="problem-card reveal">
+                    <div class="theme">Advanced Materials</div>
+                    <h4>Material Stress-Strain Analysis</h4>
+                    <p><strong>Challenge:</strong> Establish SN curves for processed/converted materials vs. standard materials.</p>
+                    <p><strong>Solution Needed:</strong> Develop comparative analysis for Indian standard materials.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -264,24 +266,26 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" style="background: linear-gradient(135deg, rgba(0, 82, 204, 0.05), transparent);">
-        <h2 class="section-title">Get in Touch</h2>
-        <div style="max-width: 800px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
-            <div style="background: var(--dark-card); padding: 2rem; border-radius: 12px; border-left: 4px solid var(--primary);">
-                <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Email</h4>
-                <p style="color: var(--text-secondary);">hackathon@ranegroup.com</p>
-            </div>
-            <div style="background: var(--dark-card); padding: 2rem; border-radius: 12px; border-left: 4px solid var(--accent);">
-                <h4 style="color: var(--accent); margin-bottom: 0.5rem;">Website</h4>
-                <p style="color: var(--text-secondary);">www.ranegroup.com</p>
-            </div>
-            <div style="background: var(--dark-card); padding: 2rem; border-radius: 12px; border-left: 4px solid var(--success);">
-                <h4 style="color: var(--success); margin-bottom: 0.5rem;">Social Media</h4>
-                <p style="color: var(--text-secondary);">Follow us for updates</p>
+    <section id="contact" class="contact-section" style="background: linear-gradient(135deg, #ffffff, #f0f5ff); overflow: hidden;">
+        <h2 class="section-title contact-title">Get in Touch</h2>
+        <div class="contact-container">
+            <div class="contact-content-wrapper">
+                <div class="contact-card">
+                    <h4>Email</h4>
+                    <p>hackathon@ranegroup.com</p>
+                </div>
+                <div class="contact-card">
+                    <h4>Website</h4>
+                    <p>www.ranegroup.com</p>
+                </div>
+                <div class="contact-card">
+                    <h4>Social Media</h4>
+                    <p>Follow us for updates</p>
+                </div>
             </div>
         </div>
         <div style="text-align: center; margin-top: 3rem;">
-            <p style="color: var(--text-secondary); font-size: 1.1rem;">In collaboration with <strong style="color: var(--primary);">Chennai Institute of Technology</strong></p>
+            <p style="color: var(--text-primary); font-size: 1.1rem;">In collaboration with <strong style="color: var(--primary);">Chennai Institute of Technology</strong></p>
         </div>
     </section>
 
