@@ -1,12 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RANE Hackathon 2026 - Innovate Tomorrow</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+    <!-- Background Video & Overlay -->
+    <div class="video-background-container">
+        <video autoplay loop muted playsinline aria-hidden="true" id="bg-video">
+            <source src="D:\HackathonWebsite\WhatsApp Video 2025-12-24 at 1.53.11 PM.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+    </div>
     <!-- Navigation -->
     <nav id="navbar">
         <div class="logo">RANE Hackathon 2026</div>
@@ -29,7 +38,8 @@
                 <strong>Foster innovation in automobile and smart manufacturing</strong>
             </div>
             <div class="hero-buttons">
-                <button class="btn btn-primary" onclick="document.getElementById('about').scrollIntoView()">Explore Challenges</button>
+                <button class="btn btn-primary" onclick="document.getElementById('about').scrollIntoView()">Explore
+                    Challenges</button>
                 <button class="btn btn-secondary" onclick="alert('Brochure downloading...')">Download Brochure</button>
             </div>
             <div class="stats-container">
@@ -49,48 +59,65 @@
         </div>
     </section>
 
-    <!-- About Section -->
-    <section class="about" id="about">
-        <div class="about-content">
-            <div class="about-text">
+    <section class="about-section" id="about">
+        <div class="about-container">
+            <!-- Band 1: Header -->
+            <div class="focus-band band-header reveal">
                 <h2 class="section-title">About Hackathon</h2>
-                <h3>Innovate for Industry 4.0</h3>
-                <p>RANE's flagship hackathon brings together top engineering talent to solve real-world manufacturing challenges in automobile and smart manufacturing sectors.</p>
-                
-                <div class="about-highlight">
-                    <strong>Who Can Participate?</strong>
-                    <p>UG/PG Engineering students and Research Scholars from premier institutions across India</p>
-                </div>
+            </div>
 
-                <div class="about-highlight">
-                    <strong>Partners</strong>
-                    <p><strong>RANE Madras</strong> - Industry Leader | <strong>Chennai Institute of Technology</strong> - Academic Excellence</p>
-                </div>
-
-                <div class="about-highlight">
-                    <strong>Duration</strong>
-                    <p>November 2025 - January 2026 (2 Months of Innovation)</p>
+            <!-- Band 2: Intro & Participation -->
+            <div class="focus-band band-info reveal">
+                <div class="band-content-grid">
+                    <div class="info-main">
+                        <h3 class="dashboard-subtitle">Innovate for Industry 4.0</h3>
+                        <p class="dashboard-desc">
+                            RANE's flagship hackathon brings together top engineering talent to solve real-world
+                            manufacturing challenges in automobile and smart manufacturing sectors.
+                        </p>
+                    </div>
+                    <div class="info-stack-horizontal">
+                        <div class="info-card">
+                            <h4>Who Can Participate?</h4>
+                            <p>UG/PG Engineering students and Research Scholars from premier institutions across India
+                            </p>
+                        </div>
+                        <div class="info-card">
+                            <h4>Partners</h4>
+                            <p><strong>RANE Madras</strong> (Industry Leader) & <strong>Chennai Institute of
+                                    Technology</strong> (Academic Excellence)</p>
+                        </div>
+                        <div class="info-card">
+                            <h4>Duration</h4>
+                            <p>November 2025 - January 2026 (2 Months of Innovation)</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div>
-                <h2 style="color: var(--primary); margin-bottom: 1.5rem;">Program Highlights</h2>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <h4>Real Problems</h4>
-                        <p>Solve actual industrial challenges curated by RANE engineering team</p>
+            <!-- Band 3: Program Highlights -->
+            <div class="focus-band band-highlights reveal">
+                <h3 class="highlights-header">Program Highlights</h3>
+                <div class="widget-grid">
+                    <div class="highlight-widget">
+                        <div class="widget-icon">⚡</div>
+                        <div class="widget-title">Real Problems</div>
+                        <p class="widget-desc">Solve actual industrial challenges curated by RANE engineering team</p>
                     </div>
-                    <div class="feature-card">
-                        <h4>Expert Mentorship</h4>
-                        <p>Weekly sessions with domain experts and industry professionals</p>
+                    <div class="highlight-widget">
+                        <div class="widget-icon">👨‍🏫</div>
+                        <div class="widget-title">Expert Mentorship</div>
+                        <p class="widget-desc">Weekly sessions with domain experts and professionals</p>
                     </div>
-                    <div class="feature-card">
-                        <h4>Rewards</h4>
-                        <p>Cash prizes, internships, and industry recognition</p>
+                    <div class="highlight-widget">
+                        <div class="widget-icon">🏆</div>
+                        <div class="widget-title">Rewards</div>
+                        <p class="widget-desc">Cash prizes, internships, and industry recognition</p>
                     </div>
-                    <div class="feature-card">
-                        <h4>Learning</h4>
-                        <p>Hands-on experience in manufacturing innovation and IoT</p>
+                    <div class="highlight-widget">
+                        <div class="widget-icon">💡</div>
+                        <div class="widget-title">Learning</div>
+                        <p class="widget-desc">Hands-on experience in manufacturing innovation</p>
                     </div>
                 </div>
             </div>
@@ -160,113 +187,183 @@
 
     <!-- Challenges Section -->
     <section class="problems" id="challenges">
-        <h2 class="section-title">Challenge Themes & Problem Statements</h2>
-        <div class="problems-scroll-wrapper">
-            <div class="problems-container" id="problemsContainer">
-                <!-- Theme 1 -->
-                <div class="problem-card reveal">
-                    <div class="theme">Industrial Automation</div>
-                    <h4>CNC LoadUnload Automation</h4>
-                    <p><strong>Challenge:</strong> CNC machines require manual part loading/unloading, wasting time and resources.</p>
-                    <p><strong>Solution Needed:</strong> Design an automated system for CNC loading and unloading operations.</p>
-                </div>
+        <div class="problems-sticky-wrapper">
+            <h2 class="section-title">Challenge Themes & Problem Statements</h2>
+            <div class="problems-scroll-wrapper">
+                <div class="problems-container" id="problemsContainer">
+                    <!-- Theme 1 -->
+                    <div class="problem-card" data-index="0">
+                        <div class="theme">Industrial Automation</div>
+                        <h4>CNC LoadUnload Automation</h4>
+                        <p><strong>Challenge:</strong> CNC machines require manual part loading/unloading, wasting time
+                            and resources.</p>
+                        <p><strong>Solution Needed:</strong> Design an automated system for CNC loading and unloading
+                            operations.</p>
+                    </div>
 
-                <div class="problem-card reveal">
-                    <div class="theme">Industrial Automation</div>
-                    <h4>Automated Thread Checking System</h4>
-                    <p><strong>Challenge:</strong> Manual thread inspection using gauges is slow and inconsistent.</p>
-                    <p><strong>Solution Needed:</strong> Develop an automated inspection system with AI-based quality verification.</p>
-                </div>
+                    <div class="problem-card" data-index="1">
+                        <div class="theme">Industrial Automation</div>
+                        <h4>Automated Thread Checking System</h4>
+                        <p><strong>Challenge:</strong> Manual thread inspection using gauges is slow and inconsistent.
+                        </p>
+                        <p><strong>Solution Needed:</strong> Develop an automated inspection system with AI-based
+                            quality verification.</p>
+                    </div>
 
-                <div class="problem-card reveal">
-                    <div class="theme">Smart Manufacturing</div>
-                    <h4>Tool Life Prediction</h4>
-                    <p><strong>Challenge:</strong> Predict tool life in broaching machines using IoT sensor data and ML algorithms.</p>
-                    <p><strong>Solution Needed:</strong> Build predictive models to optimize tool replacement cycles.</p>
-                </div>
+                    <div class="problem-card" data-index="2">
+                        <div class="theme">Smart Manufacturing</div>
+                        <h4>Tool Life Prediction</h4>
+                        <p><strong>Challenge:</strong> Predict tool life in broaching machines using IoT sensor data and
+                            ML algorithms.</p>
+                        <p><strong>Solution Needed:</strong> Build predictive models to optimize tool replacement
+                            cycles.</p>
+                    </div>
 
-                <!-- Theme 2 -->
-                <div class="problem-card reveal">
-                    <div class="theme">Advanced Materials</div>
-                    <h4>Anti-Carburization Solution</h4>
-                    <p><strong>Challenge:</strong> Find cost-effective alternative to anti-carb paste for decarburising.</p>
-                    <p><strong>Solution Needed:</strong> Explore composite materials and coating solutions.</p>
-                </div>
+                    <!-- Theme 2 -->
+                    <div class="problem-card" data-index="3">
+                        <div class="theme">Advanced Materials</div>
+                        <h4>Anti-Carburization Solution</h4>
+                        <p><strong>Challenge:</strong> Find cost-effective alternative to anti-carb paste for
+                            decarburising.</p>
+                        <p><strong>Solution Needed:</strong> Explore composite materials and coating solutions.</p>
+                    </div>
 
-                <div class="problem-card reveal">
-                    <div class="theme">Advanced Materials</div>
-                    <h4>Composite Material Selection</h4>
-                    <p><strong>Challenge:</strong> Identify cost-effective composite materials for safety-critical steering components.</p>
-                    <p><strong>Solution Needed:</strong> Material analysis and feasibility study for structural applications.</p>
-                </div>
+                    <div class="problem-card" data-index="4">
+                        <div class="theme">Advanced Materials</div>
+                        <h4>Composite Material Selection</h4>
+                        <p><strong>Challenge:</strong> Identify cost-effective composite materials for safety-critical
+                            steering components.</p>
+                        <p><strong>Solution Needed:</strong> Material analysis and feasibility study for structural
+                            applications.</p>
+                    </div>
 
-                <div class="problem-card reveal">
-                    <div class="theme">Advanced Materials</div>
-                    <h4>Material Stress-Strain Analysis</h4>
-                    <p><strong>Challenge:</strong> Establish SN curves for processed/converted materials vs. standard materials.</p>
-                    <p><strong>Solution Needed:</strong> Develop comparative analysis for Indian standard materials.</p>
+                    <div class="problem-card" data-index="5">
+                        <div class="theme">Advanced Materials</div>
+                        <h4>Material Stress-Strain Analysis</h4>
+                        <p><strong>Challenge:</strong> Establish SN curves for processed/converted materials vs.
+                            standard materials.</p>
+                        <p><strong>Solution Needed:</strong> Develop comparative analysis for Indian standard materials.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Phase Details Section -->
-    <section class="phase-details">
+    <!-- Phase Details Section - Component 1: Speedometer Arc Timeline -->
+    <section class="phase-details" id="phase-details">
         <h2 class="section-title">What Happens in Each Phase</h2>
-        <div class="phases-grid">
-            <div class="phase-box reveal">
-                <div class="phase-number">1</div>
-                <h3>Registration</h3>
-                <p>Form teams, submit proposals, and showcase your innovative ideas to solve real manufacturing challenges</p>
+        <!-- Content Cards -->
+        <div class="phase-cards-container">
+            <div class="phase-card reveal reveal-left" data-phase="0">
+                <div class="card-header">
+                    <span class="phase-number">01</span>
+                    <h3>Registration</h3>
+                </div>
+                <p>Form teams, submit proposals, and showcase your innovative ideas to solve real manufacturing
+                    challenges</p>
+                <div class="card-details">
+                    <span class="duration">17 Nov - 16 Dec (31 Days)</span>
+                </div>
             </div>
-            <div class="phase-box reveal">
-                <div class="phase-number">2</div>
-                <h3>Evaluation</h3>
+            <div class="phase-card reveal reveal-right" data-phase="1">
+                <div class="card-header">
+                    <span class="phase-number">02</span>
+                    <h3>Evaluation</h3>
+                </div>
                 <p>Expert jury from RANE and CIT reviews proposals on innovation, feasibility, and relevance</p>
+                <div class="card-details">
+                    <span class="duration">17 Dec - 23 Dec (7 Days)</span>
+                </div>
             </div>
-            <div class="phase-box reveal">
-                <div class="phase-number">3</div>
-                <h3>Mentorship</h3>
+            <div class="phase-card reveal reveal-left" data-phase="2">
+                <div class="card-header">
+                    <span class="phase-number">03</span>
+                    <h3>Mentorship</h3>
+                </div>
                 <p>Get guidance from industry experts and develop your PoC under professional mentorship</p>
+                <div class="card-details">
+                    <span class="duration">24 Dec - 17 Jan (3 Weeks)</span>
+                </div>
             </div>
-            <div class="phase-box reveal">
-                <div class="phase-number">4</div>
-                <h3>Hackathon</h3>
+            <div class="phase-card reveal reveal-right" data-phase="3">
+                <div class="card-header">
+                    <span class="phase-number">04</span>
+                    <h3>Hackathon</h3>
+                </div>
                 <p>48-hour intensive hackathon with live coding, prototyping, and real-time jury feedback</p>
+                <div class="card-details">
+                    <span class="duration">28 Jan - 29 Jan (2 Days)</span>
+                </div>
             </div>
-            <div class="phase-box reveal">
-                <div class="phase-number">5</div>
-                <h3>Awards</h3>
+            <div class="phase-card reveal reveal-left" data-phase="4">
+                <div class="card-header">
+                    <span class="phase-number">05</span>
+                    <h3>Awards</h3>
+                </div>
                 <p>Win cash prizes, internship opportunities, and certificates of excellence</p>
+                <div class="card-details">
+                    <span class="duration">29 Jan (1 Day)</span>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Expected Outcomes -->
-    <section class="outcomes">
-        <h2 class="section-title">Expected Outcomes & Opportunities</h2>
-        <div class="outcomes-grid">
-            <div class="outcome-item reveal">
-                <h4> Proof-of-Concept Solutions</h4>
-                <p>Develop working prototypes and solutions for actual RANE use-cases with industry relevance</p>
-            </div>
-            <div class="outcome-item reveal">
-                <h4> Internship Pipeline</h4>
-                <p>Top performers get direct internship opportunities and potential pilot projects with RANE</p>
-            </div>
-            <div class="outcome-item reveal">
-                <h4> Research Output</h4>
-                <p>Opportunity to publish academic research papers and contribute to industry innovation</p>
-            </div>
-            <div class="outcome-item reveal">
-                <h4> Industry Recognition</h4>
-                <p>Get recognized by leading automotive manufacturing company and strengthen career prospects</p>
+    <!-- component: Expected Outcomes & Opportunities (Stacked Card Elevation) -->
+    <!-- component: Expected Outcomes & Opportunities (Stacked Card Elevation) -->
+    <section class="outcomes-section" id="outcomes-section">
+        <div class="outcomes-sticky-wrapper">
+            <div class="outcomes-bg"></div>
+
+            <div class="outcomes-content">
+                <div class="outcomes-header reveal-dashboard">
+                    <h2>Expected Outcomes & Opportunities</h2>
+                </div>
+
+                <div class="stacked-cards-container">
+                    <!-- Progress Indicator -->
+                    <div class="stack-progress">
+                        <div class="progress-bar" id="stack-progress-bar"></div>
+                    </div>
+
+                    <!-- Card 1 -->
+                    <div class="stack-card" data-index="0">
+                        <div class="card-icon">🚀</div>
+                        <h3>Proof-of-Concept Solutions</h3>
+                        <p>Develop working prototypes and solutions for actual RANE use-cases with industry relevance.
+                            Your code won't just sit in a repo—it will drive manufacturing efficiency.</p>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="stack-card" data-index="1">
+                        <div class="card-icon">💼</div>
+                        <h3>Internship Pipeline</h3>
+                        <p>Performers get direct internship opportunities and potential pilot projects with RANE. We are
+                            looking for the next generation of engineers to join our team.</p>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="stack-card" data-index="2">
+                        <div class="card-icon">📊</div>
+                        <h3>Research Output</h3>
+                        <p>Opportunity to publish academic research papers based on your unique solutions. Contribute to
+                            the body of knowledge in Industry 4.0 and Smart Manufacturing.</p>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="stack-card" data-index="3">
+                        <div class="card-icon">⭐</div>
+                        <h3>Industry Recognition</h3>
+                        <p>Get recognized by a leading automotive manufacturing company. Winners will be showcased on
+                            our corporate portals and receive certificates of excellence.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="contact-section" style="background: linear-gradient(135deg, #ffffff, #f0f5ff); overflow: hidden;">
+    <section id="contact" class="contact-section">
         <h2 class="section-title contact-title">Get in Touch</h2>
         <div class="contact-container">
             <div class="contact-content-wrapper">
@@ -285,7 +382,8 @@
             </div>
         </div>
         <div style="text-align: center; margin-top: 3rem;">
-            <p style="color: var(--text-primary); font-size: 1.1rem;">In collaboration with <strong style="color: var(--primary);">Chennai Institute of Technology</strong></p>
+            <p style="color: #F1F5FF; font-size: 1.1rem; opacity: 1; text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);">In
+                collaboration with <strong style="color: var(--primary);">Chennai Institute of Technology</strong></p>
         </div>
     </section>
 
@@ -294,7 +392,8 @@
         <div class="footer-content">
             <div class="footer-section">
                 <h4>RANE Madras</h4>
-                <p>India's leading automotive components manufacturer fostering innovation through strategic hackathons and research collaborations.</p>
+                <p>India's leading automotive components manufacturer fostering innovation through strategic hackathons
+                    and research collaborations.</p>
             </div>
             <div class="footer-section">
                 <h4>Quick Links</h4>
@@ -322,4 +421,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>

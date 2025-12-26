@@ -31,6 +31,7 @@ const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('active');
+            entry.target.classList.add('visible'); // Added for the new phase card animations
         }
     });
 }, observerOptions);
@@ -61,119 +62,193 @@ window.addEventListener('load', () => {
     setTimeout(animateCounters, 800);
 });
 
-// Horizontal scroll for problems section with vertical scroll lock
-const problemsSection = document.querySelector('.problems');
-const problemsContainer = document.getElementById('problemsContainer');
-const problemsWrapper = document.querySelector('.problems-scroll-wrapper');
-let isInProblemsSection = false;
-let isScrollLocked = false;
 
-// Check if user is in problems section
-function checkProblemsSection() {
-    const rect = problemsSection.getBoundingClientRect();
-    const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
-    
-    if (isVisible && !isInProblemsSection) {
-        isInProblemsSection = true;
-        isScrollLocked = true;
-    } else if (!isVisible && isInProblemsSection) {
-        isInProblemsSection = false;
-        isScrollLocked = false;
-    }
-}
 
-// Check if horizontal scroll is at the end
-function isAtEndOfHorizontalScroll() {
-    const container = problemsWrapper;
-    const maxScroll = container.scrollWidth - container.clientWidth;
-    const currentScroll = container.scrollLeft;
-    // Allow small threshold for rounding errors
-    return currentScroll >= maxScroll - 10;
-}
+// Component 2: Stacked Card Elevation - Scroll-driven stacking
+const outcomesSection = document.getElementById('outcomes-section');
+const stackCards = document.querySelectorAll('.stack-card');
+const stackContainer = document.querySelector('.stacked-cards-container');
+const progressBar = document.getElementById('stack-progress-bar');
+const outcomesBg = document.querySelector('.outcomes-bg');
 
-// Handle wheel events - convert vertical scroll to horizontal when in problems section
-problemsWrapper.addEventListener('wheel', (e) => {
-    if (isInProblemsSection && !isAtEndOfHorizontalScroll()) {
-        e.preventDefault();
-        // Convert vertical scroll to horizontal
-        problemsWrapper.scrollLeft += e.deltaY;
-    } else if (isInProblemsSection && isAtEndOfHorizontalScroll()) {
-        // Allow vertical scroll only when at the end
-        isScrollLocked = false;
-    }
-}, { passive: false });
-
-// Prevent vertical scroll when scroll is locked
-window.addEventListener('wheel', (e) => {
-    if (isScrollLocked && isInProblemsSection && !isAtEndOfHorizontalScroll()) {
-        e.preventDefault();
-    }
-}, { passive: false });
-
-// Prevent touch scroll when scroll is locked (for mobile)
-let touchStartX = 0;
-let touchStartY = 0;
-
-problemsWrapper.addEventListener('touchstart', (e) => {
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
-}, { passive: true });
-
-problemsWrapper.addEventListener('touchmove', (e) => {
-    if (!isInProblemsSection) return;
-    
-    const touchX = e.touches[0].clientX;
-    const touchY = e.touches[0].clientY;
-    const deltaX = touchStartX - touchX;
-    const deltaY = touchStartY - touchY;
-    
-    // If horizontal movement is greater, allow it and prevent vertical
-    if (Math.abs(deltaX) > Math.abs(deltaY) && !isAtEndOfHorizontalScroll()) {
-        e.preventDefault();
-    } else if (isAtEndOfHorizontalScroll()) {
-        // Allow vertical scroll when at end
-        isScrollLocked = false;
-    }
-}, { passive: false });
-
-// Monitor scroll position
-problemsWrapper.addEventListener('scroll', () => {
-    if (isAtEndOfHorizontalScroll()) {
-        isScrollLocked = false;
-    } else if (isInProblemsSection) {
-        isScrollLocked = true;
-    }
-});
-
-// Monitor window scroll to detect when entering/exiting problems section
-window.addEventListener('scroll', checkProblemsSection);
-window.addEventListener('resize', checkProblemsSection);
-
-// Initial check
-checkProblemsSection();
-
-// Set initial scroll position to the right (start from right side)
-function initializeProblemsScroll() {
-    if (problemsWrapper) {
-        // Scroll to the rightmost position
-        problemsWrapper.scrollLeft = problemsWrapper.scrollWidth;
-    }
-}
-
-// Initialize on load and when section becomes visible
-window.addEventListener('load', () => {
-    setTimeout(initializeProblemsScroll, 100);
-});
-
-// Also initialize when section enters viewport
-const problemsObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            setTimeout(initializeProblemsScroll, 100);
-        }
+if (outcomesSection && stackCards.length && stackContainer) {
+    // Set initial card indices and z-indexes
+    stackCards.forEach((card, index) => {
+        card.style.setProperty('--card-index', index);
+        card.style.zIndex = index + 1;
     });
-}, { threshold: 0.1 });
 
-if (problemsSection) {
-    problemsObserver.observe(problemsSection);
+    const updateStack = () => {
+        // Calculate progress based on scroll position relative to the Scroll Track (outcomes-section)
+        // NOT the container itself, because the container is sticky.
+
+        const sectionRect = outcomesSection.getBoundingClientRect();
+        const sectionTop = sectionRect.top;
+        const sectionHeight = sectionRect.height;
+        const viewportHeight = window.innerHeight;
+
+        // We want the animation to start when the section hits the top (0)
+        // And end when we have scrolled through the available height
+
+        // Progress 0 when section top is at 0
+        // Progress 1 when section bottom is at bottom of viewport (end of scroll)
+
+        const scrollableDistance = sectionHeight - viewportHeight;
+
+        // Use negative top because as we scroll down, top becomes negative
+        let rawProgress = -sectionTop / scrollableDistance;
+
+        // Clamp between 0 and 1
+        let progress = Math.max(0, Math.min(1, rawProgress));
+
+        // Slight buffer to ensure first card is fully visible at start (optional)
+        // progress = progress * 1.05; 
+
+        // Update progress bar
+        if (progressBar) {
+            progressBar.style.height = `${progress * 100}%`;
+        }
+
+        // Calculate visual states
+        const activeIndex = Math.floor(progress * stackCards.length);
+
+        // Handle Parallax Background
+        if (outcomesBg) {
+            const parallaxY = (progress - 0.5) * 50;
+            outcomesBg.style.transform = `translateY(${parallaxY}px)`;
+        }
+
+        stackCards.forEach((card, index) => {
+            // Remove all state classes first
+            card.classList.remove('active', 'behind', 'next');
+
+            if (index === activeIndex) {
+                // Current active card
+                card.classList.add('active');
+            } else if (index < activeIndex) {
+                // Cards already passed (stacked behind)
+                card.classList.add('behind');
+            } else {
+                // Cards yet to come
+                card.classList.add('next');
+            }
+        });
+    };
+
+    // Use Ticking for performance
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                updateStack();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }, { passive: true });
+
+    // Initial call
+    updateStack();
 }
+
+// About Section - Staggered Delays for Content
+document.querySelectorAll('.info-card').forEach((el, index) => {
+    el.style.transitionDelay = `${index * 150}ms`;
+});
+document.querySelectorAll('.highlight-widget').forEach((el, index) => {
+    el.style.transitionDelay = `${index * 100}ms`;
+});
+
+// Component: Challenge Themes - Sticky Stack
+(() => {
+    const problemsSection = document.getElementById('challenges');
+    const problemCards = document.querySelectorAll('.problem-card');
+
+    if (problemsSection && problemCards.length) {
+        // Initial setup not strictly needed as CSS handles opacity transition on load
+
+        const updateProblemsCarousel = () => {
+            const sectionRect = problemsSection.getBoundingClientRect();
+            const sectionTop = sectionRect.top;
+            const sectionHeight = sectionRect.height;
+            const viewportHeight = window.innerHeight;
+
+            const scrollableDistance = sectionHeight - viewportHeight;
+            let rawProgress = -sectionTop / scrollableDistance;
+            let progress = Math.max(0, Math.min(1, rawProgress));
+
+            // Map progress (0 to 1) to a continuous card index (0 to N-1)
+            const totalCards = problemCards.length;
+            const currentPosition = progress * (totalCards - 1);
+
+            // Check if mobile
+            const isMobile = window.innerWidth <= 768;
+
+            problemCards.forEach((card, index) => {
+                const dist = index - currentPosition;
+
+                // --- Mobile Logic (Vertical Slide) ---
+                if (isMobile) {
+                    // Similar to sticky stack but smoother
+                    if (Math.abs(dist) > 1.5) {
+                        card.style.opacity = 0;
+                        card.style.pointerEvents = 'none';
+                        card.style.transform = `translate(-50%, -50%) translateY(100px) scale(0.9)`;
+                    } else {
+                        // In view
+                        const yOffset = dist * 80; // Distance between cards
+                        const scale = 1 - Math.abs(dist) * 0.1;
+                        const opacity = 1 - Math.abs(dist) * 0.6;
+
+                        card.style.opacity = Math.max(0, opacity);
+                        card.style.pointerEvents = Math.abs(dist) < 0.5 ? 'auto' : 'none';
+                        card.style.zIndex = Math.round(100 - Math.abs(dist) * 10);
+                        card.style.transform = `translate(-50%, -50%) translateY(${yOffset}px) scale(${scale})`;
+                    }
+                    return;
+                }
+
+                // --- Desktop Logic (Horizontal Rotation) ---
+
+                // If far away, hide to save rendering
+                if (Math.abs(dist) > 2.5) {
+                    card.style.opacity = 0;
+                    card.style.pointerEvents = 'none';
+                    card.style.transform = `translate(-50%, -50%) translateX(${dist * 200}%) scale(0.5)`;
+                    return;
+                }
+
+                // Calculate styles
+                const opacity = 1 - Math.abs(dist) * 0.4;
+                const scale = 1 - Math.abs(dist) * 0.15;
+                const translateX = dist * 70; // 70% offset per unit
+                const rotateY = -dist * 25; // 25deg rotation
+                const zIndex = Math.round(100 - Math.abs(dist) * 10);
+
+                card.style.opacity = Math.max(0, opacity);
+                card.style.zIndex = zIndex;
+                card.style.pointerEvents = Math.abs(dist) < 0.5 ? 'auto' : 'none'; // Only center clickable
+
+                // Composite transform
+                // translate(-50%, -50%) is baseline for centering
+                card.style.transform = `translate(-50%, -50%) translateX(${translateX}%) rotateY(${rotateY}deg) scale(${scale})`;
+            });
+        };
+
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    updateProblemsCarousel();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }, { passive: true });
+
+        window.addEventListener('resize', updateProblemsCarousel);
+
+        // Initial call
+        updateProblemsCarousel();
+    }
+})();
